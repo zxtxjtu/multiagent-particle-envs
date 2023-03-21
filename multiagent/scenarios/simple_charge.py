@@ -1,7 +1,8 @@
 import numpy as np
+from torch.utils.tensorboard import SummaryWriter
+
 from multiagent.charge_core import World, Pile, EV, WaitArea
 from multiagent.scenario import BaseScenario
-from torch.utils.tensorboard import SummaryWriter
 
 
 class Scenario(BaseScenario):
@@ -156,7 +157,7 @@ class Scenario(BaseScenario):
                        world.pv.power[world.cur_t % len(world.pv.power)] / world.pv.installed_capacity]
         if isinstance(agent, Pile):
             if agent.connected:
-                state = [(agent.state.dep_t - world.cur_t) / (agent.state.dep_t - agent.state.arr_t),
+                state = [1 - (agent.state.dep_t - world.cur_t) / (agent.state.dep_t - agent.state.arr_t),
                          (agent.state.tar_b - agent.state.cur_b) / (agent.state.tar_b - agent.state.ini_b)]
                 return state + world_state + prices
             # return [0] * 2 + world_state + prices
