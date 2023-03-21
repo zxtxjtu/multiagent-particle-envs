@@ -158,7 +158,7 @@ class Scenario(BaseScenario):
         if isinstance(agent, Pile):
             if agent.connected:
                 state = [1 - (agent.state.dep_t - world.cur_t) / (agent.state.dep_t - agent.state.arr_t),
-                         (agent.state.tar_b - agent.state.cur_b) / (agent.state.tar_b - agent.state.ini_b)]
+                         1 - (agent.state.tar_b - agent.state.cur_b) / (agent.state.tar_b - agent.state.ini_b)]
                 return state + world_state + prices
             # return [0] * 2 + world_state + prices
             return [0] * 6
