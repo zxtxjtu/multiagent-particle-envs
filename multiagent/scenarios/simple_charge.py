@@ -15,7 +15,7 @@ class Scenario(BaseScenario):
         # set the T
         world.cycle = 96
         # set piles
-        num_piles = 10
+        num_piles = 3
         pile_max_out = 150
         pile_min_in = 0.1 * pile_max_out
         world.piles = [Pile() for _ in range(num_piles)]
