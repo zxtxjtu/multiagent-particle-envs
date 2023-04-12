@@ -15,9 +15,9 @@ class Scenario(BaseScenario):
         # set the T
         world.cycle = 96
         # set piles
-        num_piles = 3
-        pile_max_out = 150
-        pile_min_in = 0.1 * pile_max_out
+        num_piles = 5
+        pile_max_out = 100
+        pile_min_in = 0.2 * pile_max_out
         world.piles = [Pile() for _ in range(num_piles)]
         for pile in world.piles:
             pile.max_out = pile_max_out
@@ -81,11 +81,11 @@ class Scenario(BaseScenario):
             world.arr_lamda += arr_lamda
 
         writer = SummaryWriter()
-        for i in range(world.cycle):
-            writer.add_scalars('timeseries_curve', {'pv': world.pv.power[i % len(world.pv.power)],
-                                                    'buy_prices': world.price.buy_from_grid_p[i],
-                                                    'sell_prices': world.price.sell_to_grid_p[i],
-                                                    'arr_lamda': world.arr_lamda[i]}, i)
+        # for i in range(world.cycle):
+        #     writer.add_scalars('timeseries_curve', {'pv': world.pv.power[i % len(world.pv.power)],
+        #                                             'buy_prices': world.price.buy_from_grid_p[i],
+        #                                             'sell_prices': world.price.sell_to_grid_p[i],
+        #                                             'arr_lamda': world.arr_lamda[i]}, i)
         writer.close()
 
         coe_ev_price = 2
@@ -102,7 +102,7 @@ class Scenario(BaseScenario):
         world.piles_power_sum = 0
         world.wait = WaitArea()
 
-        world.es.state.cur_c = np.random.randint(world.es.min_c, world.es.max_c)
+        world.es.state.cur_c = np.random.randint(world.es.min_c, world.es.max_c / 5)
         world.es.action = 0.0
         world.es.real_action = 0.0
 

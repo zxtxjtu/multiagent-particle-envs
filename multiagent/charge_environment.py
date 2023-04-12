@@ -78,8 +78,8 @@ class MultiPileEnv(gym.Env):
             for i, ev in enumerate(self.world.wait.wait_EVs):
                 if self.world.wait.is_wait[i]:
                     reward += max(-100, 10 * (ev.arr_t - self.world.cur_t) / (ev.cur_b / ev.tar_b))
-            if still_wait_ev > 0:
-                print("still wait: %d" % still_wait_ev)
+            # if still_wait_ev > 0:
+                # print("still wait: %d" % still_wait_ev)
         reward_n = [reward] * n
 
         return obs_n, reward_n, done_n, info

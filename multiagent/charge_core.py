@@ -17,6 +17,7 @@ class EV(object):
         self.sensitivity = 0.0
         self.payment = 0.0
         self.code = None
+        self.pile_code = -1
 
 
 class WaitArea(object):
@@ -142,7 +143,7 @@ class World(object):
         self.extra_deal = self.pv.power[curr_time % len(self.pv.power)] + self.es.real_action - self.piles_power_sum
 
     def update_piles(self):
-        for pile in self.piles:
+        for pile_code, pile in enumerate(self.piles):
             if pile.connected:
                 continue
             for i, ev in enumerate(self.wait.wait_EVs):
@@ -152,6 +153,7 @@ class World(object):
                     pile.connected = True
                     pile.state = ev
                     self.wait.is_wait[i] = False
+                    ev.pile_code = pile_code
                     break
         self.working_num = 0
         for pile in self.piles:
@@ -175,11 +177,12 @@ class World(object):
         for _ in range(arr_num):
             new_ev = EV()
             new_ev.arr_t = self.cur_t
-            new_ev.dep_t = new_ev.arr_t + np.random.randint(1, int(4 // self.slot))
-            new_ev.full_b = 80
+            new_ev.dep_t = new_ev.arr_t + np.random.randint(1, int(3 // self.slot))
+            new_ev.full_b = 100
             new_ev.ini_b = round(np.random.uniform(0.05, 0.25), 2) * new_ev.full_b
             new_ev.cur_b = new_ev.ini_b
             new_ev.tar_b = round(np.random.uniform(0.80, 0.99), 2) * new_ev.full_b
+            # 可以为每一辆电车的焦虑建模
             new_ev.sensitivity = np.random.randint(0, 5)
             new_ev.payment = 0
             new_ev.code = len(self.wait.wait_EVs) + 1
